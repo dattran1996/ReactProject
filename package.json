@@ -10,8 +10,11 @@
     "test": "jest"
   },
   "dependencies": {
+    "install": "^0.13.0",
+    "npm": "^9.8.1",
     "react": "18.2.0",
-    "react-native": "0.72.3"
+    "react-native": "0.72.3",
+    "react-native-vector-icons": "^10.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

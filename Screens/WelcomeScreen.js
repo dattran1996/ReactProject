@@ -1,10 +1,42 @@
-import React from 'react';
-import {Alert, Image, ImageBackground, Text, View, TouchableOpacity} from 'react-native';
-import { sum2number,substract2number } from '../util/Calculation';
+import React, { useState, useEffect, useRef } from 'react';
+import {
+    Image,
+    ImageBackground,
+    Text,
+    View,
+    TouchableOpacity,
+    Alert
+} from 'react-native';
+import { sum2number, substract2number } from '../util/Calculation';
 
-import { images,icons } from '../constants'
-const WelcomeScreen = (props) =>{
-    return <View style = {{
+import {
+    images,
+    icons,
+    color
+} from '../constants'
+
+import { UIButton } from '../components';
+import Icon from 'react-native-vector-icons/FontAwesome5'
+import {fontSizes} from '../constants';
+
+
+const WelcomeScreen = (props) => {
+
+    const [accountTypes, setAccountTypes] = useState([
+        {
+            name: 'Influencer',
+            isSelected: true,
+        },
+        {
+            name: 'Business',
+            isSelected: false,
+        },
+        {
+            name: 'Individual',
+            isSelected: false,
+        }
+    ])
+    return <View style={{
         backgroundColor: 'white',
         flex: 100
     }}>
@@ -20,9 +52,9 @@ const WelcomeScreen = (props) =>{
                 flex: 20,
 
             }}>
-                <View style = {{
-                    flexDirection : 'row',
-                    height : 50,
+                <View style={{
+                    flexDirection: 'row',
+                    height: 50,
                     justifyContent: 'flex-start',
                     alignItems: 'center',
                 }}>
@@ -44,14 +76,13 @@ const WelcomeScreen = (props) =>{
                     <View style={{ flex: 1 }}>
 
                     </View>
-                    <Image source={
-                        icons.question
-                    }
-                        style={{
-                            width: 30,
-                            height: 30,
-                            marginRight: 10
-                        }}
+                    <Icon name={'question-circle'}
+                    size = {20}
+                    style={{
+                        marginRight: 15,
+                        color: 'white'
+                    }}
+                        
                     />
                 </View>
             </View>
@@ -60,55 +91,75 @@ const WelcomeScreen = (props) =>{
                 width: '100%',
                 justifyContent: 'center',
                 alignItems: 'center',
-            }} > 
+            }} >
                 <Text style={{
                     marginBottom: 10,
                     color: 'white',
-                    fontSize : 13
+                    fontSize: fontSizes.h3
                 }}>Welcome to</Text>
                 <Text style={{
                     marginBottom: 10,
                     color: 'white',
                     fontWeight: 'bold',
-                    fontSize: 17
+                    fontSize: fontSizes.h2
                 }}>BEESYSTEM.CO !</Text>
                 <Text style={{
                     marginBottom: 10,
                     color: 'white',
-                    fontSize: 13
+                    fontSize: fontSizes.h3
                 }}>Please select your account type</Text>
             </View>
 
             <View style={{
                 flex: 40,
-                backgroundColor: 'purple'
             }}>
-                <TouchableOpacity style = {{
-                    borderColor: 'white',
-                    borderWidth: 1,
-                    height: 45,
-                    borderRadius: 5,
-                    marginHorizontal: 20,
-                    marginVertical : 10,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    backgroundColor: 'white'
-                    
-                }}>
-                    <Text style = {{
-                        color: '#ED6263',
-                        fontSize : 15
-                        
-                    }}>Infuencer</Text>
-
-                </TouchableOpacity>
+                {accountTypes.map(accountType => 
+                
+                <UIButton onPress={() => {
+                    setAccountTypes(accountTypes.map(eachAcountType => {
+                        return {
+                            ...eachAcountType,
+                            isSelected : eachAcountType.name == accountType.name
+                        }
+                    }));
+                }}
+                    title={accountType.name}
+                    isSelected={accountType.isSelected}
+                />)
+                }
 
             </View>
 
             <View style={{
-                flex: 20,
-                backgroundColor: 'yellow'
-            }} />
+                flex: 20
+            }} >
+                <UIButton title = {'Login'.toUpperCase()} />
+                <View style = {{
+                    flex: 0.8
+                }}> 
+
+                </View>
+                <View>
+                <Text style={{
+                    color: 'white',
+                    fontSize: fontSizes.h3,
+                    alignSelf : 'center',
+                }}>Want to register new Account ?</Text>
+                <TouchableOpacity 
+                onPress = {() => {
+                    Alert.alert('press register')
+                }}>
+                <Text style={{
+                    color: color.primary,
+                    fontSize: fontSizes.h3,
+                    alignSelf : 'center',
+                    textDecorationLine: 'underline'
+                }}>Register</Text>
+                </TouchableOpacity>
+                </View>
+                
+
+            </View>
         </ImageBackground>
     </View>
 }
